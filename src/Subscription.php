@@ -3,7 +3,7 @@
     
    use linslin\yii2\curl;
    use Ramakrishnan\Chargebee\Environment;
-   use Ramakrishnan\Chargebee\Chargebee;
+   use Ramakrishnan\Chargebee\Chargebees;
    use yii\helpers\json;
 
    class Subscription {
@@ -37,10 +37,10 @@
             ->post($url);
          
       $result = json_decode($response);
-      $chargebee = Chargebee::find()->where(['customer_email'=>$result->customer->email])->one();
+      $chargebee = Chargebees::find()->where(['customer_email'=>$result->customer->email])->one();
       if(empty($chargebee))
       {
-        $chargebee = new Chargebee();
+        $chargebee = new Chargebees();
         $chargebee->customer_id = $result->subscription->customer_id;
         $chargebee->subscription_id = $result->subscription->id;
         $chargebee->customer_email = $result->customer->email;
@@ -98,6 +98,21 @@
             ])
             ->post($url);
          }
+         return $response;
+            
+      }
+      public function listsubscription($subscription_id)
+      {
+        $url = Environment::siteurl();
+         $url .="/api/v2/subscriptions/".$subscription_id;
+         
+          $curl = new curl\Curl();
+           $response = $curl->setPostParams([
+            ])
+            ->setHeaders([
+               'authorization' => 'Basic "'.Environment::authorization().'"'
+            ])
+            ->get($url);
          return $response;
             
       }

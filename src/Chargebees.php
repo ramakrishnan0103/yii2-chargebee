@@ -1,7 +1,7 @@
 <?php
    namespace Ramakrishnan\Chargebee;
     use yii;
-   class Chargebee extends \yii\db\ActiveRecord
+   class Chargebees extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
